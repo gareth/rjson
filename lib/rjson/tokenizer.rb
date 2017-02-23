@@ -38,6 +38,7 @@ module RJSON
 
       else
         text = @ss.rest
+        @ss.terminate
         [:CORRUPTED, text]
       end
     end
