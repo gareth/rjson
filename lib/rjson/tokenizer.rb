@@ -3,7 +3,7 @@ require 'strscan'
 module RJSON
   class Tokenizer
     STRING = /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/
-    NUMBER = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/
+    NUMBER = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?\b/
     TRUE   = /true/
     FALSE  = /false/
     NULL   = /null/
