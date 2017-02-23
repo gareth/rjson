@@ -19,6 +19,10 @@ module RJSON
     end
     alias :end_object :end_array
 
+    def incomplete_array
+      @stack.pop
+    end
+
     def scalar s
       @stack.last << [:scalar, s]
     end

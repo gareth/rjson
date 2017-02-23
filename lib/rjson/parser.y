@@ -1,9 +1,10 @@
 class RJSON::Parser
-token STRING NUMBER TRUE FALSE NULL
+token STRING NUMBER TRUE FALSE NULL CORRUPTED
 rule
   document
     : object
     | array
+    | incomplete_array
     ;
   object
     : start_object end_object
@@ -19,6 +20,10 @@ rule
   array
     : start_array end_array
     | start_array values end_array
+    ;
+  incomplete_array
+    : start_array
+    | start_array values { @handler.incomplete_array }
     ;
 
   start_array  : '[' { @handler.start_array  } ;
@@ -44,6 +49,7 @@ rule
     | TRUE   { result = true }
     | FALSE  { result = false }
     | NULL   { result = nil }
+    | CORRUPTED   { result = :corrupted }
     ;
   string
     : STRING { @handler.scalar val[0].gsub(/^"|"$/, '') }
