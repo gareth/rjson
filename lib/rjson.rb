@@ -1,3 +1,4 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rjson/parser'
 require 'rjson/tokenizer'
 require 'stringio'
