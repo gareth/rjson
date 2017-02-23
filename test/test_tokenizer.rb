@@ -23,10 +23,18 @@ module RJSON
       [:STRING, '"h\u1234ello"'],
       [:STRING, '"h\/ello"'],
 
+      [:CORRUPTED, '"hello wo'],
+      [:CORRUPTED, 'fals'],
+      [:CORRUPTED, '3e'],
+
       [:TRUE, 'true'],
       [:FALSE, 'false'],
       [:NULL, 'null'],
       ['{', '{'],
+      ['}', '}'],
+      ['[', '['],
+      [']', ']'],
+      [',', ','],
       [':', ':'],
     ].each do |token|
       define_method("test_#{token.join '_'}") do
@@ -34,18 +42,18 @@ module RJSON
         assert_equal token, tok.next_token
       end
 
-      define_method("test_stream_#{token.join '_'}") do
-        tok = new_stream_tokenizer token.last
-        assert_equal token, tok.next_token
-      end
+      # define_method("test_stream_#{token.join '_'}") do
+      #   tok = new_stream_tokenizer token.last
+      #   assert_equal token, tok.next_token
+      # end
     end
 
     def new_tokenizer string
       Tokenizer.new StringIO.new string
     end
 
-    def new_stream_tokenizer string
-      StreamTokenizer.new StringIO.new string
-    end
+    # def new_stream_tokenizer string
+    #   StreamTokenizer.new StringIO.new string
+    # end
   end
 end
