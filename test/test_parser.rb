@@ -24,6 +24,18 @@ module RJSON
       assert_equal(['foo'], r)
     end
 
+    def test_does_not_touch_uncorrupted_number_in_array
+      parser = new_parser '["foo",1]'
+      r = parser.parse.result
+      assert_equal(['foo',1], r)
+    end
+
+    def test_corrupted_nested_array
+      parser = new_parser '["foo",[fals'
+      r = parser.parse.result
+      assert_equal(['foo',[]], r)
+    end
+
     def test_object
       parser = new_parser '{"foo":{"bar":null}}'
       r = parser.parse.result
