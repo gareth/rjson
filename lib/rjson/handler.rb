@@ -36,6 +36,7 @@ module RJSON
       last_token_value = last_token.last
 
       if last_token_value.is_a?(Numeric) || last_token_value == :corrupted
+        # Remove corrupted data
         last_tokens_context.pop
       end
 
@@ -49,9 +50,12 @@ module RJSON
       when :array
         rest.map { |x| process(x.first, x.drop(1)) }
       when :hash
-        Hash[rest.map { |x|
-          process(x.first, x.drop(1))
-        }.each_slice(2).to_a]
+        Hash[
+          rest.
+          map { |x| process(x.first, x.drop(1)) }.
+          each_slice(2).
+          take_while { |i| i.size == 2 }
+        ]
       when :scalar
         rest.first
       end

@@ -4,11 +4,16 @@ rule
   document
     : object
     | array
+    | incomplete_object
     | incomplete_array
     ;
   object
     : start_object end_object
     | start_object pairs end_object
+    ;
+  incomplete_object
+    : start_object
+    | start_object pairs
     ;
   pairs
     : pairs ',' pair
@@ -40,6 +45,7 @@ rule
     | object
     | array
     | incomplete_array
+    | incomplete_object
     ;
   scalar
     : string
