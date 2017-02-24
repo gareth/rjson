@@ -41,6 +41,7 @@ module RJSON
         last_tokens_context.pop
       end
 
+      # The next line succeeds whether or not all arrays have been ended already
       root = @stack.first.last
       process root.first, root.drop(1)
     end
