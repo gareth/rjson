@@ -66,6 +66,24 @@ module RJSON
       assert_equal({ "foo" => 13.5, "bar" => {} }, r)
     end
 
+    def test_corrupted_object_key
+      parser = new_parser '{"foo":true,"ba'
+      r = parser.parse.result
+      assert_equal({ 'foo' => true }, r)
+    end
+
+    def test_corrupted_object_ends_with_complete_key
+      parser = new_parser '{"foo":true,"bar"'
+      r = parser.parse.result
+      assert_equal({ 'foo' => true }, r)
+    end
+
+    def test_corrupted_object_ends_with_colon
+      parser = new_parser '{"foo":true,"bar":'
+      r = parser.parse.result
+      assert_equal({ 'foo' => true }, r)
+    end
+
     def new_parser string
       tokenizer = Tokenizer.new StringIO.new string
       Parser.new tokenizer
