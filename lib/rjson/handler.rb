@@ -31,8 +31,6 @@ module RJSON
     def result
       # If we're in an unclosed array, remove any corrupted items from the
       # end of the open array before processing:
-
-      # TODO: Make the following go as deep as it needs to - more `last` calls:
       last_tokens_context = @stack.last
       last_token = last_tokens_context.last
       last_token_value = last_token.last

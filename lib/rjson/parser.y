@@ -39,6 +39,7 @@ rule
     : scalar
     | object
     | array
+    | incomplete_array
     ;
   scalar
     : string

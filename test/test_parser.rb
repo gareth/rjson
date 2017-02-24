@@ -30,10 +30,10 @@ module RJSON
       assert_equal(['foo',1], r)
     end
 
-    def test_corrupted_nested_array
-      parser = new_parser '["foo",[fals'
+    def test_corrupted_value_in_nested_array
+      parser = new_parser '["foo",[10.3,["bar",fals'
       r = parser.parse.result
-      assert_equal(['foo',[]], r)
+      assert_equal(['foo',[10.3,['bar']]], r)
     end
 
     def test_object
