@@ -24,6 +24,12 @@ module RJSON
       assert_equal(['foo'], r)
     end
 
+    def test_corrupted_number_in_array
+      parser = new_parser '["foo",1'
+      r = parser.parse.result
+      assert_equal(['foo'], r)
+    end
+
     def test_object
       parser = new_parser '{"foo":{"bar":null}}'
       r = parser.parse.result
