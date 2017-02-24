@@ -42,6 +42,30 @@ module RJSON
       assert_equal({ 'foo' => { 'bar' => nil }}, r)
     end
 
+    def test_corrupted_object
+      parser = new_parser '{"foo":true,"bar":fals'
+      r = parser.parse.result
+      assert_equal({ 'foo' => true }, r)
+    end
+
+    def test_corrupted_number_in_object
+      parser = new_parser '{"foo":13.5,"bar":1'
+      r = parser.parse.result
+      assert_equal({ 'foo' => 13.5 }, r)
+    end
+
+    def test_does_not_touch_uncorrupted_number_in_object
+      parser = new_parser '{"foo":13.5,"bar":1}'
+      r = parser.parse.result
+      assert_equal({ 'foo' => 13.5, 'bar' => 1 }, r)
+    end
+
+    def test_corrupted_value_in_nested_object
+      parser = new_parser '{"foo":13.5,"bar":{"baz":fals'
+      r = parser.parse.result
+      assert_equal({ "foo" => 13.5, "bar" => {} }, r)
+    end
+
     def new_parser string
       tokenizer = Tokenizer.new StringIO.new string
       Parser.new tokenizer
