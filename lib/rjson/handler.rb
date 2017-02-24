@@ -19,10 +19,6 @@ module RJSON
     end
     alias :end_object :end_array
 
-    def incomplete_array
-      @stack.pop
-    end
-
     def scalar s
       @stack.last << [:scalar, s]
     end
@@ -33,6 +29,16 @@ module RJSON
     end
 
     def result
+      # If we're in an unclosed array, remove any corrupted items from the
+      # end of the open array before processing:
+
+      # TODO: Make the following go as deep as it needs to - more `last` calls:
+      last_tokens_context = @stack.last
+      last_token = last_tokens_context.last
+      if last_token.last == :corrupted
+        last_tokens_context.pop
+      end
+
       root = @stack.first.last
       process root.first, root.drop(1)
     end

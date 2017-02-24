@@ -23,7 +23,7 @@ rule
     ;
   incomplete_array
     : start_array
-    | start_array values { @handler.incomplete_array }
+    | start_array values
     ;
 
   start_array  : '[' { @handler.start_array  } ;
