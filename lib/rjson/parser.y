@@ -16,11 +16,19 @@ rule
     | start_object pairs
     ;
   pairs
-    : pairs ',' pair
-    | pair
+    : pairs ',' final_pair
+    | final_pair
+    ;
+  final_pair
+    : pair
+    | corrupted_pair
+    ;
+  corrupted_pair
+    : key ':'
+    | key
     ;
   pair
-    : string ':' value
+    : key ':' value
     ;
   array
     : start_array end_array
@@ -36,6 +44,10 @@ rule
   start_object : '{' { @handler.start_object } ;
   end_object   : '}' { @handler.end_object   } ;
 
+  key
+    : string
+    | corrupted
+    ;
   values
     : values ',' value
     | value
@@ -56,7 +68,10 @@ rule
     | TRUE   { result = true }
     | FALSE  { result = false }
     | NULL   { result = nil }
-    | CORRUPTED   { result = :corrupted }
+    | corrupted
+    ;
+  corrupted
+    : CORRUPTED   { result = :corrupted }
     ;
   string
     : STRING { @handler.scalar val[0].gsub(/^"|"$/, '') }
