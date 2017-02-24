@@ -48,6 +48,12 @@ module RJSON
       assert_equal({ 'foo' => true }, r)
     end
 
+    def test_corrupted_object_first_value
+      parser = new_parser '{"foo":tru'
+      r = parser.parse.result
+      assert_equal({}, r)
+    end
+
     def test_corrupted_number_in_object
       parser = new_parser '{"foo":13.5,"bar":1'
       r = parser.parse.result
@@ -80,6 +86,12 @@ module RJSON
 
     def test_corrupted_object_ends_with_colon
       parser = new_parser '{"foo":true,"bar":'
+      r = parser.parse.result
+      assert_equal({ 'foo' => true }, r)
+    end
+
+    def test_corrupted_object_ends_with_comma
+      parser = new_parser '{"foo":true,'
       r = parser.parse.result
       assert_equal({ 'foo' => true }, r)
     end
