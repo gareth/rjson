@@ -35,7 +35,9 @@ module RJSON
       # TODO: Make the following go as deep as it needs to - more `last` calls:
       last_tokens_context = @stack.last
       last_token = last_tokens_context.last
-      if last_token.last == :corrupted
+      last_token_value = last_token.last
+
+      if last_token_value.is_a?(Numeric) || last_token_value == :corrupted
         last_tokens_context.pop
       end
 
