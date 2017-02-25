@@ -13,22 +13,23 @@ rule
     ;
   incomplete_object
     : start_object
+    | start_object corrupted_pair
     | start_object pairs
+    | start_object corrupted_pairs
+    ;
+  corrupted_pairs
+    : pairs ',' corrupted_pair
     ;
   pairs
-    : pairs ',' final_pair
-    | final_pair
+    : pairs ',' pair
+    | pair
     ;
-  final_pair
-    : pair
-    | corrupted_pair
+  pair
+    : key ':' value
     ;
   corrupted_pair
     : key ':'
     | key
-    ;
-  pair
-    : key ':' value
     ;
   array
     : start_array end_array
