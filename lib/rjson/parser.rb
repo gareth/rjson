@@ -51,11 +51,11 @@ racc_action_pointer = [
      0,    10,   nil,    21,   nil,   nil,   nil,   nil ]
 
 racc_action_default = [
-   -44,   -44,    -1,    -2,    -3,    -4,    -7,   -19,   -21,   -23,
-   -44,    -5,    -9,    -8,   -10,   -13,   -16,   -24,   -25,   -26,
-   -42,   -43,   -17,   -20,   -22,   -28,   -29,   -30,   -31,   -32,
-   -33,   -34,   -35,   -37,   -38,   -39,   -40,   -41,    48,    -6,
-   -44,   -15,   -18,   -36,   -11,   -12,   -14,   -27 ]
+   -45,   -45,    -1,    -2,    -3,    -4,    -7,   -20,   -22,   -24,
+   -45,    -5,    -9,    -8,   -11,   -14,   -17,   -25,   -26,   -27,
+   -43,   -44,   -18,   -21,   -23,   -29,   -30,   -31,   -32,   -33,
+   -34,   -35,   -36,   -38,   -39,   -40,   -41,   -42,    48,    -6,
+   -10,   -16,   -19,   -37,   -12,   -13,   -15,   -28 ]
 
 racc_goto_table = [
     25,    19,    22,    13,    15,    18,    11,    23,    14,     1,
@@ -90,6 +90,7 @@ racc_reduce_table = [
   1, 18, :_reduce_none,
   2, 18, :_reduce_none,
   2, 18, :_reduce_none,
+  3, 18, :_reduce_none,
   2, 18, :_reduce_none,
   3, 24, :_reduce_none,
   3, 22, :_reduce_none,
@@ -101,10 +102,10 @@ racc_reduce_table = [
   3, 17, :_reduce_none,
   1, 19, :_reduce_none,
   2, 19, :_reduce_none,
-  1, 28, :_reduce_21,
-  1, 29, :_reduce_22,
-  1, 20, :_reduce_23,
-  1, 21, :_reduce_24,
+  1, 28, :_reduce_22,
+  1, 29, :_reduce_23,
+  1, 20, :_reduce_24,
+  1, 21, :_reduce_25,
   1, 26, :_reduce_none,
   1, 26, :_reduce_none,
   3, 30, :_reduce_none,
@@ -115,17 +116,17 @@ racc_reduce_table = [
   1, 27, :_reduce_none,
   1, 27, :_reduce_none,
   1, 33, :_reduce_none,
-  1, 33, :_reduce_35,
+  1, 33, :_reduce_36,
   0, 34, :_reduce_none,
-  1, 34, :_reduce_37,
   1, 34, :_reduce_38,
   1, 34, :_reduce_39,
   1, 34, :_reduce_40,
+  1, 34, :_reduce_41,
   1, 34, :_reduce_none,
-  1, 32, :_reduce_42,
-  1, 31, :_reduce_43 ]
+  1, 32, :_reduce_43,
+  1, 31, :_reduce_44 ]
 
-racc_reduce_n = 44
+racc_reduce_n = 45
 
 racc_shift_n = 48
 
@@ -248,27 +249,27 @@ Racc_debug_parser = false
 
 # reduce 20 omitted
 
-def _reduce_21(val, _values, result)
+# reduce 21 omitted
+
+def _reduce_22(val, _values, result)
  @handler.start_array
     result
 end
 
-def _reduce_22(val, _values, result)
+def _reduce_23(val, _values, result)
  @handler.end_array
     result
 end
 
-def _reduce_23(val, _values, result)
+def _reduce_24(val, _values, result)
  @handler.start_object
     result
 end
 
-def _reduce_24(val, _values, result)
+def _reduce_25(val, _values, result)
  @handler.end_object
     result
 end
-
-# reduce 25 omitted
 
 # reduce 26 omitted
 
@@ -288,41 +289,43 @@ end
 
 # reduce 34 omitted
 
-def _reduce_35(val, _values, result)
+# reduce 35 omitted
+
+def _reduce_36(val, _values, result)
  @handler.scalar val[0]
     result
 end
 
-# reduce 36 omitted
+# reduce 37 omitted
 
-def _reduce_37(val, _values, result)
+def _reduce_38(val, _values, result)
  n = val[0]; result = n.count('.') > 0 ? n.to_f : n.to_i
     result
 end
 
-def _reduce_38(val, _values, result)
+def _reduce_39(val, _values, result)
  result = true
     result
 end
 
-def _reduce_39(val, _values, result)
+def _reduce_40(val, _values, result)
  result = false
     result
 end
 
-def _reduce_40(val, _values, result)
+def _reduce_41(val, _values, result)
  result = nil
     result
 end
 
-# reduce 41 omitted
+# reduce 42 omitted
 
-def _reduce_42(val, _values, result)
+def _reduce_43(val, _values, result)
  result = :corrupted
     result
 end
 
-def _reduce_43(val, _values, result)
+def _reduce_44(val, _values, result)
  @handler.scalar val[0].gsub(/^"|"$/, '')
     result
 end

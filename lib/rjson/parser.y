@@ -15,6 +15,7 @@ rule
     : start_object
     | start_object corrupted_pair
     | start_object pairs
+    | start_object pairs ','
     | start_object corrupted_pairs
     ;
   corrupted_pairs
