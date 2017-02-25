@@ -26,11 +26,13 @@ rule
     | pair
     ;
   pair
-    : key ':' value
+    : string ':' value
     ;
   corrupted_pair
-    : key ':'
-    | key
+    : string ':' corrupted
+    | string ':'
+    | string
+    | corrupted
     ;
   array
     : start_array end_array
@@ -38,17 +40,17 @@ rule
     ;
   incomplete_array
     : start_array
+    | start_array corrupted
     | start_array values
+    | start_array values ','
+    | start_array corrupted_values
     ;
-
   start_array  : '[' { @handler.start_array  } ;
   end_array    : ']' { @handler.end_array    } ;
   start_object : '{' { @handler.start_object } ;
   end_object   : '}' { @handler.end_object   } ;
-
-  key
-    : string
-    | corrupted
+  corrupted_values
+    : values ',' corrupted
     ;
   values
     : values ',' value
@@ -70,10 +72,9 @@ rule
     | TRUE   { result = true }
     | FALSE  { result = false }
     | NULL   { result = nil }
-    | corrupted
     ;
   corrupted
-    : CORRUPTED   { result = :corrupted }
+    : CORRUPTED { result = :corrupted }
     ;
   string
     : STRING { @handler.scalar val[0].gsub(/^"|"$/, '') }

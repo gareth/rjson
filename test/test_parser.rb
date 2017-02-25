@@ -24,6 +24,12 @@ module RJSON
       assert_equal(['foo'], r)
     end
 
+    def test_corrupted_array_ends_with_comma
+      parser = new_parser '["foo",'
+      r = parser.parse.result
+      assert_equal(['foo'], r)
+    end
+
     def test_does_not_touch_uncorrupted_number_in_array
       parser = new_parser '["foo",1]'
       r = parser.parse.result
