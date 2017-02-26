@@ -30,6 +30,12 @@ module RJSON
       assert_equal(['foo'], r)
     end
 
+    def test_corrupted_object_ends_with_opening_square_bracket
+      parser = new_parser '["foo",['
+      r = parser.parse.result
+      assert_equal(['foo', []], r)
+    end
+
     def test_does_not_touch_uncorrupted_number_in_array
       parser = new_parser '["foo",1]'
       r = parser.parse.result
@@ -100,6 +106,12 @@ module RJSON
       parser = new_parser '{"foo":true,'
       r = parser.parse.result
       assert_equal({ 'foo' => true }, r)
+    end
+
+    def test_corrupted_object_ends_with_opening_curly
+      parser = new_parser '{"foo":{'
+      r = parser.parse.result
+      assert_equal({ 'foo' => {} }, r)
     end
 
     def test_key_without_value_throws_error
