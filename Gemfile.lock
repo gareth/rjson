@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    bridgeu-rjson (0.0.1)
+      racc
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -25,12 +31,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bridgeu-rjson!
   hoe
   hoe-gemspec
   hoe-git
   minitest
   pry-byebug
-  racc
   rake (~> 10.0)
 
 BUNDLED WITH
