@@ -25,7 +25,9 @@ module RJSON
 
       [:CORRUPTED, '"hello wo'],
       [:CORRUPTED, 'fals'],
+      
       [:CORRUPTED, '3e'],
+      [:CORRUPTED, '0.'],
 
       [:TRUE, 'true'],
       [:FALSE, 'false'],

@@ -24,7 +24,6 @@ module RJSON
 
       case
       when text = @ss.scan(STRING) then [:STRING, text]
-      when text = @ss.scan(NUMBER) then [:NUMBER, text]
       when text = @ss.scan(TRUE)   then [:TRUE, text]
       when text = @ss.scan(FALSE)  then [:FALSE, text]
       when text = @ss.scan(NULL)   then [:NULL, text]
@@ -35,6 +34,17 @@ module RJSON
       when x = @ss.scan(CLOSE_CURLY) then [x, x]
       when x = @ss.scan(COMMA)       then [x, x]
       when x = @ss.scan(COLON)       then [x, x]
+      
+      when text = @ss.scan(NUMBER)
+        next_ch = @ss.peek(1)
+        # Peek at the next char to check it's not an `e` or a `.`
+        # If it is, then we have corrupted data, not a valid number token
+        if ['e', '.'].include? next_ch
+          text << @ss.getch
+          [:CORRUPTED, text]
+        else
+          [:NUMBER, text]
+        end
 
       else
         text = @ss.rest
