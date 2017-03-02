@@ -45,5 +45,28 @@ module RJSON
         rest.first
       end
     end
+
+    # Recover an invalid parse tree by dropping items that we're not certain are
+    # fully recoverable
+    def recover!
+      binding.pry
+      current_context = stack.last
+      _type, *rest = current_context
+
+      # If the last thing we processed was a number, we don't know whether it
+      # was a complete number, so we pretend it was never read at all.
+      _last_entry_type, last_entry_value = rest.last
+      case last_entry_value
+      when Numeric
+        stack.last.pop
+      end
+
+      type, *rest = current_context
+
+      case type
+      when :hash
+        stack.last.pop if rest.size.odd?
+      end
+    end
   end
 end

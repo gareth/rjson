@@ -70,3 +70,7 @@ end
     do_parse
     handler
   end
+
+  def on_error(t, val, vstack)
+    handler.recover!
+  end
